@@ -1,0 +1,187 @@
+<div class="container mt-2" *ngIf="type">
+  <h5 class="text-center">{{ type.name | titlecase }}-type</h5>
+
+  <!-- offensive stats -->
+  <div class="row my-2" id="offensive_stats">
+    <h6 class="text-center">Offensive</h6>
+    <div class="col-12 text-center">
+      <div class="row gx-1 border-bottom border-top">
+        <div
+          class="col bg-success bg-opacity-75 text-white rounded d-flex align-items-center justify-content-center my-1"
+        >
+          <span id="double_damage_to">
+            <div
+              popper="{{ type.name | uppercase }}-type moves weaken"
+              [popperTrigger]="popperTrigger"
+              [popperPlacement]="popperPlacement"
+              [popperApplyClass]="popperApplyClass"
+              [popperPositionFixed]="true"
+            >
+              <span class="bold">2X</span>
+            </div>
+          </span>
+        </div>
+        <div class="col">
+          <div
+            [ngClass]="type.name"
+            class="p-1 rounded my-1"
+            *ngFor="let type of type.damage_relations.double_damage_to"
+          >
+            <a
+              class="text-dark text-decoration-none"
+              (click)="changeToType(type.name)"
+              >{{ type.name | uppercase }}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row gx-1 border-bottom">
+        <div
+          class="col bg-danger bg-opacity-75 text-white rounded d-flex align-items-center justify-content-center my-1"
+        >
+          <div
+            popper="{{ type.name | uppercase }}-type moves are resisted by"
+            [popperTrigger]="popperTrigger"
+            [popperPlacement]="popperPlacement"
+            [popperApplyClass]="popperApplyClass"
+            [popperPositionFixed]="true"
+          >
+            <span class="bold">1/2X</span>
+          </div>
+        </div>
+        <div class="col">
+          <div
+            [ngClass]="type.name"
+            class="p-1 rounded my-1"
+            *ngFor="let type of type.damage_relations.half_damage_to"
+          >
+            <a
+              class="text-dark text-decoration-none"
+              (click)="changeToType(type.name)"
+              >{{ type.name | uppercase }}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row gx-1 border-bottom">
+        <div
+          class="col bg-dark text-white rounded d-flex align-items-center justify-content-center my-1"
+        >
+          <div
+            popper="{{ type.name | uppercase }}-type moves do not affect"
+            [popperTrigger]="popperTrigger"
+            [popperPlacement]="popperPlacement"
+            [popperApplyClass]="popperApplyClass"
+            [popperPositionFixed]="true"
+          >
+            <span class="bold">0X</span>
+          </div>
+        </div>
+        <div class="col">
+          <div
+            [ngClass]="type.name"
+            class="p-1 rounded my-1"
+            *ngFor="let type of type.damage_relations.no_damage_to"
+          >
+            <a
+              class="text-dark text-decoration-none"
+              (click)="changeToType(type.name)"
+              >{{ type.name | uppercase }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- defensive stats -->
+  <div class="row my-2">
+    <h6 class="text-center">Defensive</h6>
+    <div class="col-12 text-center">
+      <div class="row gx-1 border-bottom border-top">
+        <div
+          class="col bg-danger bg-opacity-75 text-white rounded d-flex align-items-center justify-content-center my-1"
+        >
+          <div
+            popper="{{ type.name | uppercase }}-type Pokémon are weak to"
+            [popperTrigger]="popperTrigger"
+            [popperPlacement]="popperPlacement"
+            [popperApplyClass]="popperApplyClass"
+            [popperPositionFixed]="true"
+          >
+            <span class="bold">1/2X</span>
+          </div>
+        </div>
+        <div class="col">
+          <div
+            [ngClass]="type.name"
+            class="p-1 rounded my-1"
+            *ngFor="let type of type.damage_relations.double_damage_from"
+          >
+            <a
+              class="text-dark text-decoration-none"
+              (click)="changeToType(type.name)"
+              >{{ type.name | uppercase }}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row gx-1 border-bottom">
+        <div
+          class="col bg-success bg-opacity-75 text-white rounded d-flex align-items-center justify-content-center my-1"
+        >
+          <div
+            popper="{{ type.name | uppercase }}-type Pokémon resist"
+            [popperTrigger]="popperTrigger"
+            [popperPlacement]="popperPlacement"
+            [popperApplyClass]="popperApplyClass"
+            [popperPositionFixed]="true"
+          >
+            <span class="bold">2X</span>
+          </div>
+        </div>
+        <div class="col">
+          <div
+            [ngClass]="type.name"
+            class="p-1 rounded my-1"
+            *ngFor="let type of type.damage_relations.half_damage_from"
+          >
+            <a
+              class="text-dark text-decoration-none"
+              (click)="changeToType(type.name)"
+              >{{ type.name | uppercase }}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row gx-1 border-bottom">
+        <div
+          class="col bg-dark text-white rounded d-flex align-items-center justify-content-center my-1"
+        >
+          <div
+            popper="{{ type.name | uppercase }}-type Pokémon are unaffected by"
+            [popperTrigger]="popperTrigger"
+            [popperPlacement]="popperPlacement"
+            [popperApplyClass]="popperApplyClass"
+            [popperPositionFixed]="true"
+          >
+            <span class="bold">0X</span>
+          </div>
+        </div>
+        <div class="col">
+          <div
+            [ngClass]="type.name"
+            class="p-1 rounded my-1"
+            *ngFor="let type of type.damage_relations.no_damage_from"
+          >
+            <a
+              class="text-dark text-decoration-none"
+              (click)="changeToType(type.name)"
+              >{{ type.name | uppercase }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

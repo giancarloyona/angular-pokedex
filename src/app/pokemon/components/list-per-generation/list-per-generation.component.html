@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row g-0 my-2 text-center justify-content-center">
+    <h5>Gen {{ generation }} Pokémons</h5>
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#ID</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let res of listOfPokemon
+                  | paginate : { itemsPerPage: 10, currentPage: currentPage }
+              "
+            >
+              <td>
+                {{ res.url.slice(34).replace("/", "") }}
+              </td>
+              <td>
+                <a
+                  class="text-decoration-none link-danger"
+                  [routerLink]="['/detail', res.name]"
+                >
+                  {{ res.name.replace("-", " ") | titlecase }}
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls
+          (pageChange)="currentPage = $event"
+        ></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

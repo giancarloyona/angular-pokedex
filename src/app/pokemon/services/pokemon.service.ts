@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environment/environment';
 import { Observable } from 'rxjs';
-import { Pokemon } from '../models/pokemon.model';
+import { pokemon } from '../models/pokemon.model';
+import { response } from '../models/response.model';
 
 const API = environment.API_URL;
 
@@ -12,11 +13,58 @@ const API = environment.API_URL;
 export class PokemonService {
   constructor(private httpClient: HttpClient) {}
 
-  getAllPokemon(): Observable<Response[]> {
-    return this.httpClient.get<Response[]>(`${API}/pokemon/?limit=151`);
+  getPokemon(id: string | number): Observable<pokemon> {
+    return this.httpClient.get<pokemon>(`${API}/pokemon/${id}`);
   }
 
-  getPokemon(id: string) {
-    return this.httpClient.get<Pokemon>(`${API}/pokemon/${id}`);
+  getPokemonGeneration(generation: string): Observable<response> {
+    switch (generation) {
+      case '1': {
+        return this.httpClient.get<response>(`${API}/pokemon/?limit=151`);
+      }
+      case '2': {
+        return this.httpClient.get<response>(
+          `${API}/pokemon/?limit=100&offset=151`
+        );
+      }
+      case '3': {
+        return this.httpClient.get<response>(
+          `${API}/pokemon/?limit=135&offset=251`
+        );
+      }
+      case '4': {
+        return this.httpClient.get<response>(
+          `${API}/pokemon/?limit=107&offset=386`
+        );
+      }
+      case '5': {
+        return this.httpClient.get<response>(
+          `${API}/pokemon/?limit=156&offset=493`
+        );
+      }
+      case '6': {
+        return this.httpClient.get<response>(
+          `${API}/pokemon/?limit=72&offset=649`
+        );
+      }
+      case '7': {
+        return this.httpClient.get<response>(
+          `${API}/pokemon/?limit=88&offset=721`
+        );
+      }
+      case '8': {
+        return this.httpClient.get<response>(
+          `${API}/pokemon/?limit=96&offset=809`
+        );
+      }
+      case '9': {
+        return this.httpClient.get<response>(
+          `${API}/pokemon/?limit=103&offset=905`
+        );
+      }
+      default: {
+        return this.httpClient.get<response>(`${API}/pokemon/?limit=151`);
+      }
+    }
   }
 }

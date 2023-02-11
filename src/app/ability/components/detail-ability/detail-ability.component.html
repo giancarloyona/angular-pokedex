@@ -1,0 +1,100 @@
+<div class="container">
+  <ng-template [ngIf]="!isLoadingData" [ngIfElse]="loading">
+    <div class="row text-center">
+      <div class="col-12">
+        <h5>{{ ability.name.replaceAll("-", " ") | titlecase }}</h5>
+        <p>
+          <span class="fw-bold">{{
+            ability.name.replaceAll("-", " ") | titlecase
+          }}</span>
+          (Japanese:
+          <span class="fst-italic">{{ ability.names.at(0)?.name }}</span
+          >) is an ability introduced in
+          {{ ability.generation.name.slice(0, 10) | titlecase }}
+          {{ ability.generation.name.slice(11) | uppercase }}.
+        </p>
+      </div>
+    </div>
+    <div class="row my-2">
+      <div class="col-12 col-lg-6">
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th>Short description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-6">
+                <ng-template
+                  [ngIf]="ability.effect_entries.length > 0"
+                  [ngIfElse]="noData"
+                >
+                  {{ short_desc }}
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th>Full description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-6">
+                <ng-template
+                  [ngIf]="ability.effect_entries.length > 0"
+                  [ngIfElse]="noData"
+                >
+                  {{ full_desc }}
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row my-2">
+      <div class="col table-responsive text-center">
+        <h6>Pokemon with this ability</h6>
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th>Pokemon</th>
+              <th>Hidden ability?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pokemon of ability.pokemon">
+              <td class="col-6">
+                <a
+                  [routerLink]="['/detail', pokemon.pokemon.name]"
+                  class="text-decoration-none text-danger"
+                >
+                  {{ pokemon.pokemon.name.replaceAll("-", " ") | titlecase }}
+                </a>
+              </td>
+              <td class="col-6">
+                {{ pokemon.is_hidden === true ? "Yes" : "No" }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #loading>
+  <app-loading-data></app-loading-data>
+</ng-template>
+
+<ng-template #noData>
+  <p>No data available.</p>
+</ng-template>

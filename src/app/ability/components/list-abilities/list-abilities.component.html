@@ -1,0 +1,59 @@
+<div class="container" *ngIf="results; else loading">
+  <h5 class="text-center">Abilities</h5>
+  <div class="row text-center">
+    <div class="col">
+      <p>
+        An Ability is a game mechanic introduced in Generation III that provides
+        a passive effect in battle or in the overworld<sup>[1]</sup>
+      </p>
+      <ng-template [ngIf]="!isLoadingData" [ngIfElse]="loading">
+        <div class="table-responsive">
+          <table class="table text-center">
+            <thead>
+              <tr>
+                <th>#ID</th>
+                <th>Ability</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let ability of results
+                    | paginate : { itemsPerPage: 10, currentPage: currentPage }
+                "
+              >
+                <td>{{ ability.url.slice(34).replaceAll("/", "") }}</td>
+                <td>
+                  <a
+                    class="text-decoration-none text-danger"
+                    [routerLink]="['/abilities', ability.name]"
+                    >{{ ability.name.replaceAll("-", " ") | titlecase }}</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls
+            (pageChange)="currentPage = $event"
+          ></pagination-controls>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <p>
+        <sup id="bulbapedia_references">[1]</sup> Source:
+        <a
+          href="https://bulbapedia.bulbagarden.net/wiki/Type"
+          class="text-decoration-none link-danger"
+          >Bulbapedia</a
+        >
+      </p>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <app-loading-data></app-loading-data>
+</ng-template>

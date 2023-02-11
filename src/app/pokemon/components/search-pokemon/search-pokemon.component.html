@@ -1,0 +1,144 @@
+<div class="my-2 text-center">
+  <h5>Search for a Pokémon</h5>
+
+  <div class="col-12">
+    <form (submit)="searchPokemon()" id="pokemonForm" [formGroup]="pokemonForm">
+      <div class="row mb-2">
+        <div class="col-sm-12">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Type a name or ID..."
+            formControlName="pokemon"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 d-grid mb-2 order-last order-sm-first">
+          <button
+            class="btn btn-primary btn-block"
+            type="button"
+            (click)="searchRandomPokemon(); focusDetails()"
+          >
+            Random Pokémon
+          </button>
+        </div>
+        <div class="col-sm-6 d-grid mb-2 order-first order-sm-last">
+          <button
+            class="btn btn-success btn-block"
+            type="submit"
+            (click)="focusDetails()"
+            [disabled]="!pokemonForm.valid"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<ng-template [ngIf]="!isLoadingData" [ngIfElse]="loading">
+  <div
+    id="displayDetails"
+    *ngIf="pokemon && !error"
+    [ngClass]="pokemon.types.at(0)?.type?.name"
+    class="rounded border border-light"
+  >
+    <div>
+      <!-- info -->
+      <div class="row g-0 justify-content-center">
+        <div class="row gx-2 py-1 text-center fw-bold">
+          <div class="col-8 mt-2">
+            <div class="p-2 bg-white rounded">
+              {{ pokemon.name.replace("-", " ") | titlecase }}
+            </div>
+          </div>
+          <div class="col-4 mt-2">
+            <div class="p-2 bg-white rounded">#{{ pokemon.id }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- sprites -->
+      <div class="row g-0 justify-content-center">
+        <div class="row gx-2 py-1 text-center">
+          <div class="col">
+            <div class="p-2 bg-white rounded">
+              <figure>
+                <img
+                  class="img img-fluid my-2"
+                  src="{{
+                    pokemon.sprites.front_default === null
+                      ? './../../../../assets/not_available.png'
+                      : pokemon.sprites.front_default
+                  }}"
+                />
+                <figcaption>Front</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="col">
+            <div class="p-2 bg-white rounded">
+              <figure>
+                <img
+                  class="img img-fluid my-2"
+                  src="{{
+                    pokemon.sprites.back_default === null
+                      ? './../../../../assets/not_available.png'
+                      : pokemon.sprites.back_default
+                  }}"
+                />
+                <figcaption>Back</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--details -->
+      <div class="row g-0 justify-content-center">
+        <div class="row gx-2 py-1 text-center">
+          <div class="col-sm-6 d-grid mb-2 order-sm-last">
+            <button
+              class="btn btn-success btn-block"
+              type="button"
+              [routerLink]="['detail', pokemon.id]"
+            >
+              Details
+            </button>
+          </div>
+          <div class="col-sm-6 d-grid mb-2 order-sm-first">
+            <button
+              class="btn btn-danger btn-block"
+              type="button"
+              (click)="dismiss()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div
+    *ngIf="error"
+    class="alert alert-danger alert-dismissible fade show"
+    role="alert"
+  >
+    Pokémon not found!
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+      (click)="dismiss()"
+    ></button>
+  </div>
+  <div *ngIf="!error">
+    <app-loading-data></app-loading-data>
+  </div>
+</ng-template>

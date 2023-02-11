@@ -1,129 +1,182 @@
-<div
-  class="row row-cols-1 rounded justify-content-center my-3"
-  [ngClass]="pokemon.types.at(0)?.type?.name"
->
-  <div class="bg-white bg-opacity-50 rounded w-75 my-3">
-    <!-- info -->
-    <div class="col my-1">
-      <div class="row gx-2">
-        <div class="col-8">
-          <div class="px-1 bg-white rounded">
-            <h5 class="m-0">
-              {{ pokemon.name.replace("-", " ") | titlecase }}
-            </h5>
+<div class="container">
+  <div
+    id="displayDetails"
+    *ngIf="pokemon"
+    [ngClass]="pokemon.types.at(0)?.type?.name"
+    class="rounded my-2"
+  >
+    <div>
+      <!-- info -->
+      <div class="row g-0 justify-content-center">
+        <div class="row gx-2 py-1 text-center fw-bold">
+          <div class="col-8 mt-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="m-0">
+                {{ pokemon.name.replaceAll("-", " ") | titlecase }}
+              </h5>
+            </div>
+          </div>
+          <div class="col-4 mt-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="m-0">#{{ pokemon.id }}</h5>
+            </div>
           </div>
         </div>
-        <div class="col text-center">
-          <div class="px-1 bg-white rounded">
-            <h5 class="m-0">#{{ pokemon.id }}</h5>
+      </div>
+
+      <!-- sprites -->
+      <div class="row g-0 justify-content-center">
+        <div class="row gx-2 mb-2 py-1 text-center">
+          <div class="col-6 mb-2">
+            <div class="p-2 bg-white rounded">
+              <figure>
+                <img
+                  class="img img-fluid my-2"
+                  src="{{
+                    pokemon.sprites.front_default === null
+                      ? './../../../../assets/not_available.png'
+                      : pokemon.sprites.front_default
+                  }}"
+                />
+                <figcaption>Front</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="col-6 mb-2">
+            <div class="p-2 bg-white rounded">
+              <figure>
+                <img
+                  class="img img-fluid my-2"
+                  src="{{
+                    pokemon.sprites.back_default === null
+                      ? './../../../../assets/not_available.png'
+                      : pokemon.sprites.back_default
+                  }}"
+                />
+                <figcaption>Back</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-2 bg-white rounded">
+              <figure>
+                <img
+                  class="img img-fluid my-2"
+                  src="{{
+                    pokemon.sprites.front_shiny === null
+                      ? './../../../../assets/not_available.png'
+                      : pokemon.sprites.front_shiny
+                  }}"
+                />
+                <figcaption>Front - Shiny</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-2 bg-white rounded">
+              <figure>
+                <img
+                  class="img img-fluid my-2"
+                  src="{{
+                    pokemon.sprites.back_shiny === null
+                      ? './../../../../assets/not_available.png'
+                      : pokemon.sprites.back_shiny
+                  }}"
+                />
+                <figcaption>Back - Shiny</figcaption>
+              </figure>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- sprites -->
-    <div class="col my-1 bg-white rounded text-center">
-      <div class="row row-cols-2">
-        <div class="col my-1">
-          <figure class="figure">
-            <img
-              [src]="pokemon.sprites.front_default"
-              class="img img-thumbnail"
-            />
-            <figcaption>Front (Normal)</figcaption>
-          </figure>
-        </div>
-        <div class="col my-1">
-          <figure class="figure">
-            <img
-              [src]="pokemon.sprites.back_default"
-              class="img img-thumbnail"
-            />
-            <figcaption>Back (Normal)</figcaption>
-          </figure>
-        </div>
-        <div class="col my-1">
-          <figure class="figure">
-            <img
-              [src]="pokemon.sprites.front_shiny"
-              class="img img-thumbnail"
-            />
-            <figcaption>Front (Shiny)</figcaption>
-          </figure>
-        </div>
-        <div class="col my-1">
-          <figure class="figure">
-            <img [src]="pokemon.sprites.back_shiny" class="img img-thumbnail" />
-            <figcaption>Back (Shiny)</figcaption>
-          </figure>
+      <!-- types -->
+      <div class="row g-0 px-2 justify-content-center">
+        <div class="row gx-2 mb-2 bg-white text-center rounded">
+          <span class="fw-bold">Types</span>
+          <div class="col py-2" *ngFor="let type of pokemon.types">
+            <div class="rounded p-2 text-center" [ngClass]="type.type.name">
+              <a
+                [routerLink]="['/types/', type.type.name]"
+                class="text-decoration-none text-dark"
+                >{{ type.type.name | uppercase }}</a
+              >
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- types -->
-    <div
-      class="col my-1 border border-white border-opacity-50 rounded text-center"
-    >
-      <div class="row gx-2">
-        <h6>Types</h6>
-        <div
-          class="col mx-1 text-white rounded"
-          *ngFor="let type of pokemon.types"
-          [ngClass]="type.type.name"
-        >
-          {{ type.type.name | uppercase }}
+      <!-- abilities -->
+      <div class="row g-0 px-2 justify-content-center">
+        <div class="row gx-2 mb-2 bg-white text-center rounded">
+          <span class="fw-bold">Abilities</span>
+          <div
+            class="col-sm-12 col-md py-2 my-1"
+            *ngFor="let ability of pokemon.abilities"
+          >
+            <div class="p-2 text-center">
+              <a
+                class="text-decoration-none text-danger"
+                [routerLink]="['/abilities/', ability.ability.name]"
+                >{{ ability.ability.name.replace("-", " ") | titlecase }}
+              </a>
+              <span *ngIf="ability.is_hidden"><small>(Hidden)</small></span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- base exp -->
-    <div
-      class="col my-1 border border-white border-opacity-50 rounded text-center"
-    >
-      <div class="row gx-2">
-        <div class="px-1">
-          <h6>Base Experience</h6>
-        </div>
-        <div class="col bg-white rounded mx-1">
-          {{ pokemon.base_experience }}
+      <!-- base experience -->
+      <div class="row g-0 px-2 justify-content-center">
+        <div class="row gx-2 mb-2 py-1 bg-white text-center rounded">
+          <span class="fw-bold">Base experience</span>
+          <div class="col py-2 text-center">
+            {{ pokemon.base_experience }}
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- stats -->
-    <div class="col border border-white border-opacity-50 rounded text-center">
-      <h6>Stats</h6>
-      <div
-        class="row m-0 p-0 w-100 border border-white border-opacity-50 rounded text-center"
-      >
-        <div
-          class="col-sm-12 col-md-6 col-lg align-items-center rounded"
-          [ngClass]="stat.stat.name"
-          *ngFor="let stat of pokemon.stats"
-        >
-          <p class="my-0 fw-bold">{{ stat.stat.name | uppercase }}</p>
-          <p class="my-0">{{ stat.base_stat }}</p>
+      <!-- stats -->
+      <div class="row g-0 px-2 justify-content-center">
+        <div class="row gx-2 mb-2 py-1 bg-white text-center rounded">
+          <span class="fw-bold">Base stats</span>
+          <div
+            class="col-lg-4 col-md-6 col-sm-12"
+            *ngFor="let stat of pokemon.stats"
+          >
+            <div
+              class="text-center rounded p-1 my-1"
+              [ngClass]="stat.stat.name"
+            >
+              <h6 class="m-0 g-0 p-0">
+                {{ stat.stat.name.replace("-", " ") | uppercase }}
+              </h6>
+              <p class="m-0 g-0 p-0">{{ stat.base_stat }}</p>
+            </div>
+          </div>
+          <span class="fw-bold">Total: {{ totalStats }}</span>
         </div>
       </div>
-    </div>
 
-    <!-- navigation -->
-    <div class="row align-items-center">
-      <div class="col d-grid">
-        <button
-          class="btn btn-dark btn-block my-2"
-          (click)="navigateTo(pokemon.id - 1)"
-        >
-          Previous
-        </button>
-      </div>
-      <div class="col d-grid">
-        <button
-          class="btn btn-dark btn-block my-2"
-          (click)="navigateTo(pokemon.id + 1)"
-        >
-          Next
-        </button>
+      <div class="row g-0 px-2 justify-content-center">
+        <div class="row gx-2 mb-2 py-1 text-center rounded">
+          <div class="col d-grid">
+            <button
+              class="btn btn-dark btn-block text-white"
+              (click)="previous(pokemon.id)"
+            >
+              Previous
+            </button>
+          </div>
+          <div class="col d-grid">
+            <button
+              class="btn btn-dark btn-block text-white"
+              (click)="next(pokemon.id)"
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

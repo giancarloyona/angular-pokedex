@@ -1,7 +1,7 @@
 export interface response {
   count: number;
-  next?: string;
-  previous?: string;
+  next: string;
+  previous: string;
   results: Result;
 }
 

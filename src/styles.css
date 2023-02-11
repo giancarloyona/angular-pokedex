@@ -1,1 +1,101 @@
 /* You can add global styles to this file, and also import other style files */
+
+.poison {
+  background-color: #a14aa0;
+}
+
+.ghost {
+  background-color: #705898;
+}
+
+.electric {
+  background-color: #f8d14a;
+}
+
+.normal {
+  background-color: #a8a878;
+}
+
+.fire {
+  background-color: #f0803a;
+}
+
+.fighting {
+  background-color: #c03729;
+}
+
+.water {
+  background-color: #6890f0;
+}
+
+.flying {
+  background-color: #a890f0;
+}
+
+.grass {
+  background-color: #78c850;
+}
+
+.ground {
+  background-color: #e0c068;
+}
+
+.psychic {
+  background-color: #ef5687;
+}
+
+.rock {
+  background-color: #b8a038;
+}
+
+.ice {
+  background-color: #705848;
+}
+
+.bug {
+  background-color: #a8b938;
+}
+
+.dragon {
+  background-color: #7564f6;
+}
+
+.dark {
+  background-color: #705848;
+}
+
+.steel {
+  background-color: #b8b8d0;
+}
+
+.fairy {
+  background-color: #ee99ac;
+}
+
+.unknown {
+  background-color: #68a090;
+}
+
+.hp {
+  background-color: #f05557;
+}
+
+.attack {
+  background-color: #f5ac78;
+}
+
+.defense {
+  background-color: #fae078;
+}
+
+.special-attack {
+  background-color: #9db7f5;
+}
+
+.special-defense {
+  background-color: #a7db8d;
+}
+
+.speed {
+  background-color: #f391b2;
+}

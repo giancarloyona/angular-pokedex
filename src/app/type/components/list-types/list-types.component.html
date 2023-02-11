@@ -1,0 +1,64 @@
+<div class="container">
+  <h5 class="text-center">Types</h5>
+  <div class="row">
+    <div class="col">
+      <p>
+        Types are properties applied to Pokémon and their moves, which affect
+        the power of moves in battles. As of Generation VI, there are 18 types.
+        During Generation I, types were occasionally referred to as elements.
+        <sup>[1]</sup> As of Generation IX, the types
+        <span class="fst-italic">Unknown</span> and
+        <span class="fst-italic">Shadow</span> are not being used.
+      </p>
+    </div>
+  </div>
+
+  <div class="row text-center">
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#ID</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let type of types
+                  | paginate : { itemsPerPage: 10, currentPage: currentPage };
+                let i = index
+              "
+            >
+              <td>{{ type.url.slice(31).replace("/", "") }}</td>
+              <td>
+                <a
+                  class="text-decoration-none link-danger"
+                  [routerLink]="['/types', type.name]"
+                  >{{ type.name | titlecase }}</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls
+          (pageChange)="currentPage = $event"
+        ></pagination-controls>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <p>
+        <sup id="bulbapedia_references">[1]</sup> Source:
+        <a
+          href="https://bulbapedia.bulbagarden.net/wiki/Type"
+          class="text-decoration-none link-danger"
+          >Bulbapedia</a
+        >
+      </p>
+    </div>
+  </div>
+</div>

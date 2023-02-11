@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, retry } from 'rxjs';
-import { Pokemon } from '../../models/pokemon.model';
 import { PokemonService } from '../../services/pokemon.service';
+import { map } from 'rxjs';
+import { Pokemon } from '../../classes/pokemon.class';
+import { pokemon } from '../../models/pokemon.model';
 
 @Component({
   selector: 'app-detail-pokemon',
@@ -10,47 +11,72 @@ import { PokemonService } from '../../services/pokemon.service';
   styleUrls: ['./detail-pokemon.component.css'],
 })
 export class DetailPokemonComponent implements OnInit {
-  pokemonId: string = '';
+  id: string | null = '';
+  min_id: number = 1;
+  max_id: number = 1008;
   pokemon!: Pokemon;
+  totalStats!: number;
+  error: boolean = false;
 
-  ngOnInit(): void {}
+  faLeftArrow = 'fa-solid fa-arrow-left-long';
 
   constructor(
-    private pokemonService: PokemonService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {
-    this.pokemonId = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    this.getPokemon(this.pokemonId);
+    private route: ActivatedRoute,
+    private router: Router,
+    private pokemonService: PokemonService
+  ) {}
+
+  ngOnInit(): void {
+    this.getID();
+    if (this.id) {
+      this.getDetails(this.id);
+    }
   }
 
-  getPokemon(id: string) {
+  getID() {
+    this.id = this.route.snapshot.paramMap.get(`id`) as string;
+  }
+
+  getDetails(id: string | number) {
     this.pokemonService
       .getPokemon(id)
-      .pipe(
-        map((response) => {
-          return JSON.parse(JSON.stringify(response)) as Pokemon;
-        })
-      )
+      .pipe(map((response: pokemon) => new Pokemon(response)))
       .subscribe({
-        next: (response) => {
-          this.pokemon = response;
-        },
         error: (e) => {
           console.error(e);
+        },
+        next: (n) => {
+          this.pokemon = n;
+          this.getTotalStats(this.pokemon);
         },
       });
   }
 
-  navigateTo(id: number) {
-    if (id < 1) {
-      id = 1;
-    } else if (id > 151) {
-      id = 151;
+  getTotalStats(pokemon: Pokemon) {
+    let total = 0;
+    pokemon.stats.forEach((stat) => (total += stat.base_stat));
+    this.totalStats = total;
+  }
+
+  previous(id: number) {
+    if (id <= this.min_id) {
+      id = this.max_id;
     } else {
-      this.router
-        .navigate(['/detail', id.toString()])
-        .then(() => window.location.reload());
+      id = id - 1;
     }
+
+    this.router.navigate(['/detail', id]);
+    this.getDetails(id);
+  }
+
+  next(id: number) {
+    if (id >= this.max_id) {
+      id = this.min_id;
+    } else {
+      id = id + 1;
+    }
+
+    this.router.navigate(['/detail', id]);
+    this.getDetails(id);
   }
 }
